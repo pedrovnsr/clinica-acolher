@@ -1,0 +1,91 @@
+.sidebar {
+  width: 20%;
+  background-color: #778c42;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* deixa o menu crescer e empurra o footer pro final */
+}
+
+.sidebar-header {
+  text-align: left;
+  margin-left: 20px;
+  padding: 20px 10px;
+}
+
+.sidebar-logo {
+  width: 80px;
+  height: 80px;
+}
+
+.clinic-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.sidebar-user {
+  text-align: left;
+  margin-left: 20px;
+  padding: 10px;
+  margin-bottom: 10px; /* reduz espaçamento extra */
+}
+
+.user-name {
+  font-weight: bold;
+  color: #544727;
+}
+
+.user-role {
+  font-size: 0.9rem;
+  color: #523b04;
+}
+
+.sidebar-menu {
+  flex: 1; /* faz o menu ocupar o espaço restante */
+}
+
+.sidebar-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0; /* remove margin grande */
+}
+
+.sidebar-menu li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  cursor: pointer;
+  color: #ffffff;
+  transition: background 0.2s, color 0.2s;
+  border-radius: 10px;
+}
+
+.sidebar-menu li:hover {
+  background-color: #e0e7ff;
+  color: #1e40af;
+}
+
+.sidebar-footer {
+  padding: 20px;
+  text-align: center;
+}
+
+.logout-btn {
+  background-color: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  width: 50%;
+}
+
+.logout-btn:hover {
+  background-color: #dc2626;
+}
