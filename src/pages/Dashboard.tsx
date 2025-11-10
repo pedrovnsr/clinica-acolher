@@ -1,5 +1,5 @@
 import React from "react";
-import MainLayout from "../layouts/MainLayoyt";
+import MainLayout from "../layouts/MainLayout";
 import "../styles/dashboard.css";
 
 const Dashboard: React.FC = () => {

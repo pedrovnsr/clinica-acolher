@@ -1,34 +1,27 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { api } from '../controller/api';
 import '../styles/login.css';
 import logo from '../assets/logo.png';
-import { useState } from 'react';
-import {login} from '../controller/api';
 
 export default function Login() {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-  
-  function handleChange(event : any) {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  }
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null); // Estado para a mensagem de erro
+  const navigate = useNavigate();
 
-  async function handleLogin(event : any) {
-    event.preventDefault();
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null); // Limpa erros anteriores
     try {
-      const response = await login(formData);
-      localStorage.setItem('token', response.data.token);
-      console.log('Login bem-sucedido:', response.data);
-      window.location.href = "/dashboard";
-    }
-    catch (error) {
+      const response = await api.post('/login', { email, password });
+      console.log(response.data);
+      navigate('/dashboard');
+    } catch (error) {
       console.error('Erro no login:', error);
+      setError('Email ou senha inválidos. Tente novamente.'); // Define a mensagem de erro
     }
-  }
+  };
 
   return (
     <div className="login-container">
@@ -44,17 +37,43 @@ export default function Login() {
           <option value="profissional">Profissional de saúde</option>
         </select>
 
-        <input type="email" placeholder="E-mail" onChange={handleChange} name='email'/>
-        <input type="password" placeholder="Senha" onChange={handleChange} name='password'/>
+        <form onSubmit={handleLogin} className="login-form">
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="E-mail"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="password">Senha</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Senha"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              required
+            />
+          </div>
 
-        <div className="login-actions">
-          <label>
-            <input type="checkbox" /> Lembrar de mim
-          </label>
-          <a href="#">Esqueceu sua senha?</a>
-        </div>
+          {error && <p className="error-message">{error}</p>} {/* Exibe a mensagem de erro */}
 
-        <button className="login-button" onClick={handleLogin}>Entrar</button>
+          <div className="login-actions">
+            <label>
+              <input type="checkbox" /> Lembrar de mim
+            </label>
+            <a href="#">Esqueceu sua senha?</a>
+          </div>
+
+          <button className="login-button" type="submit">
+            Entrar
+          </button>
+        </form>
       </div>
     </div>
   );
