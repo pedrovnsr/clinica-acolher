@@ -30,7 +30,7 @@ const Sidebar: React.FC = () => {
 
   <div className="sidebar-footer">
     <button className="logout-btn">
-      <FaSignOutAlt /> <span>Sair</span>
+      <FaSignOutAlt /> <span onClick={() => window.location.href = "/"}>Sair</span>
     </button>
   </div>
 </aside>
