@@ -18,13 +18,13 @@ const Sidebar: React.FC = () => {
 
       <nav className="sidebar-menu">
         <ul>
-          <li><FaTachometerAlt /><span>Dashboard</span></li>
-          <li><FaUserMd /><span>Profissionais</span></li>
-          <li><FaUsers /><span>Pacientes</span></li>
-          <li><FaCalendarAlt /><span>Agenda</span></li>
-          <li><FaMoneyBillWave /><span>Financeiro</span></li>
-          <li><FaFileMedical /><span>Prontuários</span></li>
-          <li><FaCog /><span>Configurações</span></li>
+          <li><FaTachometerAlt /><span onClick={() => window.location.href = "/dashboard"}>Dashboard</span></li>
+          <li><FaUserMd /><span onClick={() => window.location.href = "/professionals"}>Profissionais</span></li>
+          <li><FaUsers /><span onClick={() => window.location.href = "/patients"}>Pacientes</span></li>
+          <li><FaCalendarAlt /><span onClick={() => window.location.href = "/agenda"}>Agenda</span></li>
+          <li><FaMoneyBillWave /><span onClick={() => window.location.href = "/financeiro"}>Financeiro</span></li>
+          <li><FaFileMedical /><span onClick={() => window.location.href = "/prontuario"}>Prontuários</span></li>
+          <li><FaCog /><span onClick={() => window.location.href = "/configuracoes"}>Configurações</span></li>
         </ul>
       </nav>
 

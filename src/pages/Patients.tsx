@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
-import NotificationHeader from "../components/Notificationheader";
+import NotificationHeader from "../components/NotificationHeader";
 import "../styles/Patients.css";
 
 const Patients: React.FC = () => {
