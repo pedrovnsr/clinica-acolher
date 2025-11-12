@@ -237,3 +237,11 @@
   .page-title { font-size: 1.3rem; }
 }
 
+/* DEBUG banner (temporary) */
+.debug-banner {
+  background: #e53935;
+  color: #fff;
+  padding: 10px 16px;
+  font-weight: 700;
+  text-align: center;
+}
