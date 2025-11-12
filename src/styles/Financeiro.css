@@ -1,0 +1,217 @@
+/* ===== ESTRUTURA GERAL ===== */
+.financeiro-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.financeiro-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.financeiro-header {
+  height: 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  border-bottom: 1px solid #ddd;
+  background-color: #f8f8f8;
+}
+
+.page-title {
+  font-size: 1.4rem;
+  color: #333;
+  font-weight: 600;
+}
+
+/* ===== CONTEÚDO ===== */
+.financeiro-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #f3f4f6;
+}
+
+.financeiro-section {
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== TABS ===== */
+.financeiro-tabs {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.financeiro-tabs button {
+  background: #e0e7ff;
+  color: #778c42;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.financeiro-tabs button.active,
+.financeiro-tabs button:hover {
+  background-color: #778c42;
+  color: white;
+}
+
+/* ===== PAGAMENTOS ===== */
+.search-box {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.financeiro-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.financeiro-table th,
+.financeiro-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.financeiro-table th {
+  background-color: #f1f5f9;
+  color: #333;
+  font-weight: 600;
+}
+
+.status-pago {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.status-pendente {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* ===== HISTÓRICO ===== */
+.historico {
+  background-color: #f3f4f6;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.historico-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.historico-header h2 {
+  color: #333;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.exportar-btn {
+  background-color: #778c42;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.exportar-btn:hover {
+  background-color: #647534;
+}
+
+.historico-tabela-container {
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.historico-vazio {
+  color: #666;
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+}
+
+/* ===== BALANÇO ===== */
+.balanco h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+.balanco-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.balanco-cards .card {
+  background-color: #e0e7ff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.balanco-cards .card h3 {
+  color: #778c42;
+  margin-bottom: 10px;
+}
+
+/* ===== REPASSE ===== */
+.repasse {
+    background-color: #f3f4f6;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.repasse h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 600;
+
+}
+
+.repasse-tabela-container {
+    background-color: #778c42;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    color: white;
+}
+
+.repasse-vazio {
+    color: #666;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}
+
+/* Cabeçalho da tabela de repasse */
+.repasse-tabela-container table thead th {
+    background-color: #556b2f; /* cor de fundo do cabeçalho */
+    color: #ffffff;             /* cor da letra do cabeçalho */
+    font-weight: 600;           /* negrito */
+    padding: 12px;              /* espaçamento interno */
+    border-radius: 10px 10px 0 0; /* arredondar apenas o topo do cabeçalho */
+    text-align: left;           /* alinhamento do texto */
+}
+

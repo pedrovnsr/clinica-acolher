@@ -1,0 +1,45 @@
+.notification-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.notification-icon {
+  font-size: 1.4rem;
+  color: #555;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.user-role {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.user-photo {
+  width: 40px;
+  height: 40px;
+  background-color: #ccc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: #fff;
+}
