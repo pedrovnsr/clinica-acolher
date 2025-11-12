@@ -1,6 +1,5 @@
 import React from "react";
 import { FaTachometerAlt, FaUserMd, FaUsers, FaCalendarAlt, FaMoneyBillWave, FaFileMedical, FaCog, FaSignOutAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import "../styles/sidebar.css";
 import logo from "../assets/logo.png";
 
@@ -19,13 +18,13 @@ const Sidebar: React.FC = () => {
 
       <nav className="sidebar-menu">
         <ul>
-          <li><Link to="/dashboard"><FaTachometerAlt /><span>Dashboard</span></Link></li>
-          <li><Link to="/agenda"><FaCalendarAlt /><span>Agenda</span></Link></li>
-          <li><Link to="/patients"><FaUsers /><span>Pacientes</span></Link></li>
-          <li><Link to="/prontuario"><FaFileMedical /><span>Prontuários</span></Link></li>
-          <li><Link to="/professionals"><FaUserMd /><span>Profissionais</span></Link></li>
-          <li><Link to="/financeiro"><FaMoneyBillWave /><span>Financeiro</span></Link></li>
-          <li><Link to="/configuracoes"><FaCog /><span>Configurações</span></Link></li>
+          <li><FaTachometerAlt /><span>Dashboard</span></li>
+          <li><FaUserMd /><span>Profissionais</span></li>
+          <li><FaUsers /><span>Pacientes</span></li>
+          <li><FaCalendarAlt /><span>Agenda</span></li>
+          <li><FaMoneyBillWave /><span>Financeiro</span></li>
+          <li><FaFileMedical /><span>Prontuários</span></li>
+          <li><FaCog /><span>Configurações</span></li>
         </ul>
       </nav>
 
