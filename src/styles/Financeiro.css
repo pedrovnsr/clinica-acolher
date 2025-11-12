@@ -178,40 +178,45 @@
 
 /* ===== REPASSE ===== */
 .repasse {
-    background-color: #f3f4f6;
-    padding: 25px;
-    border-radius: 10px;
+  background-color: #f3f4f6;
+  padding: 25px;
+  border-radius: 10px;
 }
 
 .repasse h2 {
-    margin-bottom: 20px;
-    color: #333;
-    font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
 
 }
 
 .repasse-tabela-container {
-    background-color: #778c42;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    color: white;
+  background-color: #778c42;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  color: white;
 }
 
 .repasse-vazio {
-    color: #666;
-    text-align: center;
-    padding: 20px;
-    font-style: italic;
+  color: #666;
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
 }
 
 /* Cabeçalho da tabela de repasse */
 .repasse-tabela-container table thead th {
-    background-color: #556b2f; /* cor de fundo do cabeçalho */
-    color: #ffffff;             /* cor da letra do cabeçalho */
-    font-weight: 600;           /* negrito */
-    padding: 12px;              /* espaçamento interno */
-    border-radius: 10px 10px 0 0; /* arredondar apenas o topo do cabeçalho */
-    text-align: left;           /* alinhamento do texto */
+  background-color: #556b2f;
+  /* cor de fundo do cabeçalho */
+  color: #ffffff;
+  /* cor da letra do cabeçalho */
+  font-weight: 600;
+  /* negrito */
+  padding: 12px;
+  /* espaçamento interno */
+  border-radius: 10px 10px 0 0;
+  /* arredondar apenas o topo do cabeçalho */
+  text-align: left;
+  /* alinhamento do texto */
 }
-

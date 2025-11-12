@@ -14,7 +14,7 @@ const Prontuario = () => {
       <Sidebar />
 
       <div className="prontuario-content-area">
-        
+
         {/* Cabeçalho fixo com espaçamento */}
         <div className="prontuario-header-wrapper">
           <h1 className="prontuario-header-title">Prontuários</h1>
@@ -23,7 +23,7 @@ const Prontuario = () => {
 
         <div className="prontuario-page">
           <div className="prontuario-layout">
-            
+
             {/* Lista de pacientes */}
             <div className="patient-list-card">
               <h2>Lista de Pacientes</h2>
