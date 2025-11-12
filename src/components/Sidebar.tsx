@@ -12,8 +12,8 @@ const Sidebar: React.FC = () => {
   </div>
 
   <div className="sidebar-user">
-    <p className="user-name">Dra. Anne Caroline</p>
-    <span className="user-role">Diretora</span>
+    <p className="user-name1"> Dra. Anne Caroline</p>
+    <span className="user-role1">Diretora</span>
   </div>
 
   <nav className="sidebar-menu">
