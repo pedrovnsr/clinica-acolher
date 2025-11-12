@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import "../styles/Professionals.css";
-import { FaBell } from "react-icons/fa";
+import NotificationHeader from "../components/Notificationheader";
 
 
 
@@ -101,20 +101,10 @@ const Professionals: React.FC = () => {
       {/* Main area */}
       <div className="professionals-main">
         {/* Header */}
-        <header className="professionals-header">
-          <h1 className="page-title">Cadastro de Profissionais</h1>
-
-          <div className="header-right">
-            <FaBell className="notification-icon" />
-            <div className="user-info">
-              <div className="user-details">
-                <span className="user-name">Dra. Anne Caroline</span>
-                <span className="user-role">Diretora</span>
-              </div>
-              <div className="user-photo">Photo</div>
-            </div>
-          </div>
-        </header>
+        <div className="patients-header">
+          <h1>Cadastro de profissional</h1>
+          <NotificationHeader />
+        </div>
 
         {/* Conteúdo */}
         <section className="professionals-content">
