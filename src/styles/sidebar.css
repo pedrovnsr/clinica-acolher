@@ -31,14 +31,14 @@
   margin-bottom: 10px; /* reduz espaçamento extra */
 }
 
-.user-name {
+.user-name1 {
   font-weight: bold;
-  color: #544727;
+  color: rgb(48, 48, 48);
 }
 
-.user-role {
+.user-role1 {
   font-size: 0.9rem;
-  color: #523b04;
+  color: #292928;
 }
 
 .sidebar-menu {
