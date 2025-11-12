@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import type { FC } from 'react';
 import Sidebar from '../components/Sidebar';
 import NotificationHeader from '../components/NotificationHeader';
 import "../styles/Agenda.css";
@@ -17,7 +17,7 @@ const CalendarDay = ({ day, isSelected, hasEvent, isFaded }: { day: number | str
   );
 };
 
-const Agenda = () => {
+const Agenda: FC = () => {
   const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   const calendarDays = [
     { day: 26, isFaded: true }, { day: 27, isFaded: true }, { day: 28, isFaded: true }, { day: 29, isFaded: true }, { day: 30, isFaded: true }, { day: 31, isFaded: true }, { day: 1 },
