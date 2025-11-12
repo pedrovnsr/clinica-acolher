@@ -28,9 +28,9 @@ const Sidebar: React.FC = () => {
         </ul>
       </nav>
 
-      <div className="sidebar-footer">
+      <div className="sidebar-footer" onClick={() => window.location.href = "/"}>
         <button className="logout-btn">
-          <FaSignOutAlt /> <span onClick={() => window.location.href = "/"}>Sair</span>
+          <FaSignOutAlt /> <span>Sair</span>
         </button>
       </div>
     </aside>
