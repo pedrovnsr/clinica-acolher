@@ -1,160 +1,137 @@
-.config-container-main {
+.prontuario-page-root {
   display: flex;
-  width: 100%;
   height: 100vh;
-}
-
-.config-content-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.config-page {
-  padding: 30px;
-  background-color: #f3f4f6;
-  font-family: sans-serif;
+  background-color: #f8f9fa;
   color: #333;
-  height: 100%;
+  font-family: "Inter", sans-serif;
+}
+
+.prontuario-content {
+  flex: 1;
+  padding: 2rem;
   overflow-y: auto;
 }
 
-.config-header {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 25px;
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.config-tabs {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 25px;
-}
-
-.tab-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  background: #e0e7ff;
-  color: #778c42;
+.tabs button {
+  background-color: #e9ecef;
   border: none;
-  transition: 0.3s;
-}
-
-.tab-item.active,
-.tab-item:hover {
-  background-color: #778c42;
-  color: white;
-}
-
-.config-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 25px;
-}
-
-.config-card {
-  background-color: white;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.card-content h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem 0;
-}
-
-.card-content p {
-  margin: 0;
-  color: #6c757d;
-  font-size: 0.9rem;
-}
-
-.card-content .status {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  color: #16a34a;
-  font-weight: 500;
-}
-
-.card-content .status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #16a34a;
-}
-
-.card-content .action-link {
-  color: #778c42;
-  font-weight: 500;
-  cursor: pointer;
-  text-decoration: none;
-  margin-top: 0.5rem;
-  display: inline-block;
-}
-
-.card-content .action-link:hover {
-  text-decoration: underline;
-}
-
-.card-content .export-button {
-  background-color: #778c42;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  margin-top: 1rem;
-  transition: background-color 0.3s;
-}
-
-.card-content .export-button:hover {
-  background-color: #647534;
-}
-
-.card-icon {
-  width: 48px;
-  height: 48px;
   border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.tabs button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.tabs button:hover {
+  background-color: #d0d4da;
+}
+
+.records-section {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.records-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.records-table th,
+.records-table td {
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.records-table th {
+  background-color: #f1f3f5;
+  font-weight: 600;
+}
+
+.records-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.export-btn {
+  background-color: #198754;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.export-btn:hover {
+  background-color: #157347;
+}
+
+.novo-prontuario {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  max-width: 600px;
+}
+
+.novo-prontuario h3 {
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.novo-prontuario input,
+.novo-prontuario textarea {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.novo-prontuario textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.checkbox {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
+  margin-bottom: 12px;
 }
 
-.icon-db {
-  background-color: #e7f4e7;
-  color: #28a745;
+.checkbox label {
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
 }
 
-.icon-file {
-  background-color: #e3f2fd;
-  color: #2196f3;
+.salvar-btn {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
 }
 
-.icon-lock {
-  background-color: #fff8e1;
-  color: #ffc107;
-}
-
-.icon-download {
-  background-color: #f3e5f5;
-  color: #9c27b0;
-}
-
-/* Placeholder for icons from a library */
-.icon-placeholder {
-  font-style: normal;
+.salvar-btn:hover {
+  background-color: #0b5ed7;
 }

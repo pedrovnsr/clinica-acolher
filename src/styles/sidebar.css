@@ -51,20 +51,33 @@
   margin: 0; /* remove margin grande */
 }
 
-.sidebar-menu li {
+/* Estiliza o link e o span dentro do link para ficar branco */
+.sidebar-menu li a {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 12px 20px;
-  cursor: pointer;
-  color: #ffffff;
-  transition: background 0.2s, color 0.2s;
+  color: #ffffff; /* forçar branco */
+  text-decoration: none; /* remove underline */
+}
+
+.sidebar-menu li a span {
+  color: inherit; /* herda branco */
+}
+
+.sidebar-menu li {
+  /* Remover padding/hjandled by anchor */
+  display: block;
+}
+
+.sidebar-menu li:hover a {
+  background-color: #e0e7ff;
+  color: #1e40af;
   border-radius: 10px;
 }
 
-.sidebar-menu li:hover {
-  background-color: #e0e7ff;
-  color: #1e40af;
+.sidebar-menu li a:visited {
+  color: #ffffff;
 }
 
 .sidebar-footer {
