@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Professionals from "./pages/Professionals";
@@ -10,7 +10,7 @@ import Configuracoes from "./pages/Configuracoes";
 
 function App() {
   return (
-    <>
+    <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
@@ -21,7 +21,7 @@ function App() {
         <Route path="prontuario" element={<Prontuario />} />
         <Route path="configuracoes" element={<Configuracoes />} />
       </Routes>
-    </>
+    </Router>
   );
 }
 

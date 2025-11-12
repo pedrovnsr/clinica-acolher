@@ -51,33 +51,20 @@
   margin: 0; /* remove margin grande */
 }
 
-/* Estiliza o link e o span dentro do link para ficar branco */
-.sidebar-menu li a {
+.sidebar-menu li {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 12px 20px;
-  color: #ffffff; /* forçar branco */
-  text-decoration: none; /* remove underline */
-}
-
-.sidebar-menu li a span {
-  color: inherit; /* herda branco */
-}
-
-.sidebar-menu li {
-  /* Remover padding/hjandled by anchor */
-  display: block;
-}
-
-.sidebar-menu li:hover a {
-  background-color: #e0e7ff;
-  color: #1e40af;
+  cursor: pointer;
+  color: #ffffff;
+  transition: background 0.2s, color 0.2s;
   border-radius: 10px;
 }
 
-.sidebar-menu li a:visited {
-  color: #ffffff;
+.sidebar-menu li:hover {
+  background-color: #e0e7ff;
+  color: #1e40af;
 }
 
 .sidebar-footer {
