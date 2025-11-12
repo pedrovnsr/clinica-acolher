@@ -1,215 +1,194 @@
 import React, { useState, useEffect, Suspense } from "react";
-// import Sidebar from "../components/Sidebar";
-// import NotificationHeader from "../components/Notificationheader";
 const Sidebar = React.lazy(() => import("../components/Sidebar"));
 const NotificationHeader = React.lazy(() => import("../components/Notificationheader"));
 import ErrorBoundary from "../components/ErrorBoundary";
 import "../styles/Prontuario.css";
 
-interface Registro {
+interface Prontuario {
   id: number;
-  profissional: string;
+  nome: string;
   data: string;
-  observacoes: string;
-  ativo?: boolean;
+  descricao: string;
+  ativo: boolean;
 }
 
 const Prontuario: React.FC = () => {
+  const [prontuarios, setProntuarios] = useState<Prontuario[]>([]);
+  const [novoProntuario, setNovoProntuario] = useState<Prontuario>({
+    id: 0,
+    nome: "",
+    data: "",
+    descricao: "",
+    ativo: true,
+  });
+  const [tabSelecionada, setTabSelecionada] = useState("todos");
+  const [editandoId, setEditandoId] = useState<number | null>(null);
+
   useEffect(() => {
-    console.log("Prontuario mounted");
+    const dadosIniciais = [
+      { id: 1, nome: "João Silva", data: "2025-10-10", descricao: "Consulta de rotina", ativo: true },
+      { id: 2, nome: "Maria Souza", data: "2025-10-12", descricao: "Acompanhamento pós-operatório", ativo: false },
+    ];
+    setProntuarios(dadosIniciais);
   }, []);
 
-  // tabs: 'todos' | 'ativos' | 'novo'
-  const [activeTab, setActiveTab] = useState<"todos" | "ativos" | "novo">("todos");
+  const salvarProntuario = () => {
+    if (!novoProntuario.nome || !novoProntuario.data || !novoProntuario.descricao) return;
 
-  const [form, setForm] = useState({ profissional: "", data: "", observacoes: "" });
-  const [registros, setRegistros] = useState<Registro[]>([
-    { id: 1, profissional: "João Silva", data: "2025-11-01", observacoes: "Consulta inicial", ativo: true },
-    { id: 2, profissional: "Maria Souza", data: "2025-11-05", observacoes: "Retorno", ativo: true },
-    { id: 3, profissional: "Caio José", data: "2025-04-10", observacoes: "Gostoso", ativo: false }
-  ]);
-
-  // id do registro sendo editado (se houver)
-  const [editingId, setEditingId] = useState<number | null>(null);
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
-  }
-
-  // Salvar cria novo registro somente (se estiver editando, salva como novo) - user wanted Update to update existing
-  function salvar() {
-    const profissional = form.profissional.trim();
-    if (!profissional) return;
-    const novo: Registro = { id: Date.now(), profissional, data: form.data, observacoes: form.observacoes, ativo: true };
-    setRegistros(prev => [novo, ...prev]);
-    setForm({ profissional: "", data: "", observacoes: "" });
-    setEditingId(null);
-    // manter aba em 'todos' para ver o novo registro
-    setActiveTab("todos");
-  }
-
-  // Atualizar aplica mudanças ao registro em edição
-  function atualizar() {
-    if (editingId == null) return; // nada para atualizar
-    setRegistros(prev => prev.map(r => r.id === editingId ? { ...r, profissional: form.profissional.trim() || r.profissional, data: form.data || r.data, observacoes: form.observacoes } : r));
-    setEditingId(null);
-    setForm({ profissional: "", data: "", observacoes: "" });
-  }
-
-  function excluir(id: number) {
-    setRegistros(prev => prev.filter(r => r.id !== id));
-    if (editingId === id) {
-      setEditingId(null);
-      setForm({ profissional: "", data: "", observacoes: "" });
+    if (editandoId !== null) {
+      setProntuarios((prev) =>
+        prev.map((p) => (p.id === editandoId ? { ...novoProntuario, id: editandoId } : p))
+      );
+      setEditandoId(null);
+    } else {
+      const novo = { ...novoProntuario, id: prontuarios.length + 1 };
+      setProntuarios((prev) => [...prev, novo]);
     }
-  }
 
-  // iniciar edição: preencher form e marcar editingId
-  function editar(reg: Registro) {
-    setEditingId(reg.id);
-    setForm({ profissional: reg.profissional, data: reg.data, observacoes: reg.observacoes });
-    // focar aba 'novo' para mostrar formulário preenchido
-    setActiveTab("novo");
-  }
+    setNovoProntuario({ id: 0, nome: "", data: "", descricao: "", ativo: true });
+  };
 
-  // Exporta registros visíveis (filtrados) como CSV
-  function exportar() {
-    const rows = filteredRegistros.map(r => ({ Profissional: r.profissional, Data: r.data, Observacoes: r.observacoes }));
-    if (rows.length === 0) return;
-    const csvHeader = Object.keys(rows[0]).join(",") + "\n";
-    const csvBody = rows.map(r => Object.values(r).map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
-    const csv = csvHeader + csvBody;
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const editarProntuario = (id: number) => {
+    const prontuario = prontuarios.find((p) => p.id === id);
+    if (prontuario) {
+      setNovoProntuario(prontuario);
+      setEditandoId(id);
+    }
+  };
+
+  const excluirProntuario = (id: number) => {
+    setProntuarios((prev) => prev.filter((p) => p.id !== id));
+  };
+
+  const exportarCSV = () => {
+    const header = "ID,Nome,Data,Descrição,Ativo\n";
+    const linhas = prontuarios
+      .map((p) => `${p.id},${p.nome},${p.data},${p.descricao},${p.ativo ? "Sim" : "Não"}`)
+      .join("\n");
+    const csvContent = header + linhas;
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'prontuarios.csv';
-    document.body.appendChild(a);
+    a.download = "prontuarios.csv";
     a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-  }
+  };
 
-  // registros filtrados conforme aba ativa
-  const filteredRegistros = registros.filter(r => {
-    if (activeTab === "ativos") return r.ativo !== false;
-    return true; // todos ou novo
+  const prontuariosFiltrados = prontuarios.filter((p) => {
+    if (tabSelecionada === "ativos") return p.ativo;
+    return true;
   });
 
   return (
-    <ErrorBoundary>
-
-      <div className="prontuario-page-root">
-        <Suspense fallback={<div /> }>
+    <div className="prontuario-page-root">
+      <ErrorBoundary>
+        <Suspense fallback={<div>Carregando Sidebar...</div>}>
           <Sidebar />
         </Suspense>
+      </ErrorBoundary>
 
-        <div className="prontuario-main">
-          <header className="prontuario-header">
-            <h1 className="page-title">Prontuários</h1>
-            <Suspense fallback={<div />}>
-              <NotificationHeader />
-            </Suspense>
-          </header>
+      <div className="prontuario-content">
+        <ErrorBoundary>
+          <Suspense fallback={<div>Carregando Header...</div>}>
+            <NotificationHeader />
+          </Suspense>
+        </ErrorBoundary>
 
-          <main className="prontuario-content">
-            <div className="tabs-row">
-              <button className={"tab " + (activeTab === 'todos' ? 'active' : '')} onClick={() => setActiveTab('todos')}>Todos</button>
-              <button className={"tab " + (activeTab === 'ativos' ? 'active' : '')} onClick={() => setActiveTab('ativos')}>Ativos</button>
-              <button className={"tab " + (activeTab === 'novo' ? 'active' : '')} onClick={() => setActiveTab('novo')}>Novo</button>
-            </div>
-
-            <section className="prontuario-card">
-              <div className="prontuario-titulo">Prontuário - Novo registro</div>
-
-              <div className="form-grid">
-                <div>
-                  <div className="form-group">
-                    <label className="form-label">Profissional</label>
-                    <input
-                      name="profissional"
-                      value={form.profissional}
-                      onChange={handleChange}
-                      className="form-input"
-                      placeholder="Nome do profissional"
-                    />
-                  </div>
-
-                  <div className="form-group date-input-container">
-                    <label className="form-label">Data</label>
-                    <input
-                      type="date"
-                      name="data"
-                      value={form.data}
-                      onChange={handleChange}
-                      className="form-input"
-                    />
-                    <span className="calendar-icon">📅</span>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="form-group">
-                    <label className="form-label">Observações</label>
-                    <textarea
-                      name="observacoes"
-                      value={form.observacoes}
-                      onChange={handleChange}
-                      className="form-textarea"
-                      placeholder="Descreva as observações..."
-                      rows={6}
-                    />
-                  </div>
-
-                  <div className="card-actions">
-                    <div>
-                      <button className="botao-atualizar" onClick={atualizar}>Atualizar</button>
-                      <button className="botao-salvar" onClick={salvar}>Salvar</button>
-                      <button className="botao-exportar" onClick={exportar}>Exportar</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section className="prontuario-card list-card">
-              <div className="prontuario-titulo">Registros</div>
-
-              <table className="records-table">
-                <thead>
-                  <tr>
-                    <th>Profissional</th>
-                    <th>Data</th>
-                    <th>Observações</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredRegistros.map(r => (
-                    <tr key={r.id}>
-                      <td>{r.profissional}</td>
-                      <td>{r.data}</td>
-                      <td>{r.observacoes}</td>
-                      <td>
-                        <button className="botao-atualizar" onClick={() => editar(r)}>Editar</button>
-                        <button className="botao-excluir" onClick={() => excluir(r.id)}>Excluir</button>
-                      </td>
-                    </tr>
-                  ))}
-
-                  {filteredRegistros.length === 0 && (
-                    <tr>
-                      <td colSpan={4} style={{ textAlign: 'center', padding: 18, color: '#777' }}>Nenhum registro</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </section>
-          </main>
+        <div className="tabs">
+          <button
+            className={tabSelecionada === "todos" ? "active" : ""}
+            onClick={() => setTabSelecionada("todos")}
+          >
+            Todos
+          </button>
+          <button
+            className={tabSelecionada === "ativos" ? "active" : ""}
+            onClick={() => setTabSelecionada("ativos")}
+          >
+            Ativos
+          </button>
+          <button
+            className={tabSelecionada === "novo" ? "active" : ""}
+            onClick={() => setTabSelecionada("novo")}
+          >
+            Novo
+          </button>
         </div>
+
+        {tabSelecionada !== "novo" && (
+          <div className="records-section">
+            <table className="records-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nome</th>
+                  <th>Data</th>
+                  <th>Descrição</th>
+                  <th>Ativo</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {prontuariosFiltrados.map((p) => (
+                  <tr key={p.id}>
+                    <td>{p.id}</td>
+                    <td>{p.nome}</td>
+                    <td>{p.data}</td>
+                    <td>{p.descricao}</td>
+                    <td>{p.ativo ? "Sim" : "Não"}</td>
+                    <td>
+                      <button onClick={() => editarProntuario(p.id)}>Editar</button>
+                      <button onClick={() => excluirProntuario(p.id)}>Excluir</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <button className="export-btn" onClick={exportarCSV}>
+              Exportar CSV
+            </button>
+          </div>
+        )}
+
+        {tabSelecionada === "novo" && (
+          <div className="novo-prontuario">
+            <h3>{editandoId ? "Editar Prontuário" : "Novo Prontuário"}</h3>
+            <input
+              type="text"
+              placeholder="Nome"
+              value={novoProntuario.nome}
+              onChange={(e) => setNovoProntuario({ ...novoProntuario, nome: e.target.value })}
+            />
+            <input
+              type="date"
+              value={novoProntuario.data}
+              onChange={(e) => setNovoProntuario({ ...novoProntuario, data: e.target.value })}
+            />
+            <textarea
+              placeholder="Descrição"
+              value={novoProntuario.descricao}
+              onChange={(e) => setNovoProntuario({ ...novoProntuario, descricao: e.target.value })}
+            />
+            <div className="checkbox">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={novoProntuario.ativo}
+                  onChange={(e) =>
+                    setNovoProntuario({ ...novoProntuario, ativo: e.target.checked })
+                  }
+                />
+                Ativo
+              </label>
+            </div>
+            <button className="salvar-btn" onClick={salvarProntuario}>
+              {editandoId ? "Salvar Alterações" : "Adicionar"}
+            </button>
+          </div>
+        )}
       </div>
-    </ErrorBoundary>
+    </div>
   );
 };
 

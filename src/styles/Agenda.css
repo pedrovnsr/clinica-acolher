@@ -1,0 +1,159 @@
+.agenda-container-main {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.agenda-content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.agenda-page {
+  padding: 30px;
+  background-color: #f3f4f6;
+  font-family: sans-serif;
+  color: #333;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.agenda-header {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.agenda-container {
+  display: flex;
+  gap: 25px;
+}
+
+.agenda-main-content {
+  flex: 3;
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.agenda-sidebar {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-card,
+.legend-card {
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+.form-button {
+  width: 100%;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: #778c42;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+}
+
+.form-button:hover {
+  background-color: #647534;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.status-dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  text-align: center;
+}
+
+.calendar-weekday {
+  font-weight: 600;
+  padding: 10px;
+  color: #333;
+}
+
+.calendar-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  height: 50px;
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 6px;
+  border: 1px solid #eee;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.calendar-day.faded {
+  color: #a0a0a0;
+}
+
+.calendar-day.selected {
+  background-color: #778c42;
+  color: #ffffff;
+}
+
+.calendar-day .event-dot {
+  position: absolute;
+  bottom: 8px;
+  height: 6px;
+  width: 6px;
+  background-color: #16a34a;
+  border-radius: 50%;
+}

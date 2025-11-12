@@ -1,247 +1,137 @@
-/* Layout base para a página de prontuários */
 .prontuario-page-root {
   display: flex;
-  min-height: 100vh;
-  background: #f4f7f6;
-}
-
-.prontuario-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.prontuario-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 36px;
-  border-bottom: 1px solid rgba(0,0,0,0.04);
-  background: #fff;
-}
-
-.page-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #2f3540;
-  margin: 0;
+  height: 100vh;
+  background-color: #f8f9fa;
+  color: #333;
+  font-family: "Inter", sans-serif;
 }
 
 .prontuario-content {
-  padding: 28px 36px;
-  max-width: 1120px;
-  margin: 0 auto;
-  width: 100%;
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
 }
 
-/* Tabs simples */
-.tabs-row {
+.tabs {
   display: flex;
   gap: 10px;
-  margin: 10px 0 20px;
-}
-.tab {
-  background: #eef3f3;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 10px;
-  color: #667;
-  cursor: pointer;
-}
-.tab.active {
-  background: #7c9b59;
-  color: #fff;
-}
-
-/* O container branco principal do formulário */
-.prontuario-card {
-  background-color: #ffffff;
-  border-radius: 12px; /* Bordas bem arredondadas */
-  padding: 24px 32px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  /* Defina 'width' ou 'flex: 1' conforme seu layout */
-}
-
-/* O título, ex: "Prontuário - João Silva" */
-.prontuario-titulo {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 24px;
-}
-
-/* Container para um grupo de label + input */
-.form-group {
   margin-bottom: 20px;
 }
 
-/* O label (ex: "Profissional") */
-.form-label {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #555;
-  margin-bottom: 8px;
-}
-
-/* Estilo base para inputs, textareas, e selects */
-.form-input,
-.form-textarea,
-.form-select {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #e0e0e0; /* Borda cinza clara */
-  border-radius: 6px;
-  font-size: 1rem;
-  color: #333;
-}
-
-/* Ajuste específico para o campo de data (para o ícone) */
-.date-input-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-/* Se você usar um ícone de calendário, pode estilizá-lo */
-.calendar-icon {
-  position: absolute;
-  right: 12px;
-  color: #888;
-  cursor: pointer;
-}
-
-/* O input de data fica ao lado do ícone */
-.form-input[type="date"] {
-   /* Estilos específicos se precisar */
-}
-
-/* Placeholder (ex: "Descreva as observações...") */
-.form-input::placeholder,
-.form-textarea::placeholder,
-.form-select::placeholder {
-  color: #aaa;
-}
-
-/* Botão primário (verde-água) */
-.botao-salvar {
-  background-color: #4a9c9c;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.botao-salvar:hover {
-  background-color: #3b7c7c;
-}
-
-/* Botão secundário (fundo cinza claro) */
-.botao-atualizar {
-  background-color: #f0f0f0;
-  color: #555;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-right: 12px; /* Espaço entre os botões */
-  transition: background-color 0.3s ease;
-}
-
-.botao-atualizar:hover {
-  background-color: #e5e5e5;
-}
-
-/* Botão de "Excluir" (com texto vermelho) */
-.botao-excluir {
-  background-color: transparent;
-  color: #e53935; /* Tom de vermelho */
+.tabs button {
+  background-color: #e9ecef;
   border: none;
   border-radius: 8px;
   padding: 8px 16px;
-  font-size: 0.9rem;
-  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.botao-excluir:hover {
-  background-color: #ffebee; /* Fundo vermelho bem claro no hover */
-}
-
-/* Botão "Exportar" (similar ao Atualizar, mas mais sutil) */
-.botao-exportar {
-  background-color: #f4f7f6; /* Cor do fundo da página */
-  color: #444;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 0.9rem;
   font-weight: 500;
-  cursor: pointer;
-  margin-left: 10px; /* Espaço do botão excluir */
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.botao-exportar:hover {
-  background-color: #e5e5e5;
+.tabs button.active {
+  background-color: #007bff;
+  color: white;
 }
 
-/* Form grid layout */
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 18px;
-  align-items: start;
+.tabs button:hover {
+  background-color: #d0d4da;
 }
 
-.card-actions {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 6px;
+.records-section {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
-/* Tabela de registros */
 .records-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 8px;
 }
-.records-table thead th {
+
+.records-table th,
+.records-table td {
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
   text-align: left;
-  font-weight: 600;
-  padding: 12px 14px;
-  background: #f6f8f8;
-  color: #555;
 }
-.records-table tbody td {
-  padding: 14px;
-  border-bottom: 1px solid #eee;
+
+.records-table th {
+  background-color: #f1f3f5;
+  font-weight: 600;
+}
+
+.records-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.export-btn {
+  background-color: #198754;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.export-btn:hover {
+  background-color: #157347;
+}
+
+.novo-prontuario {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  max-width: 600px;
+}
+
+.novo-prontuario h3 {
+  margin-bottom: 16px;
   color: #333;
 }
-.records-table tbody tr:last-child td { border-bottom: none; }
 
-/* lista cartão leve */
-.list-card { margin-top: 24px; }
-
-@media (max-width: 900px) {
-  .form-grid { grid-template-columns: 1fr; }
-  .prontuario-content { padding: 18px; }
-  .page-title { font-size: 1.3rem; }
+.novo-prontuario input,
+.novo-prontuario textarea {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
-/* DEBUG banner (temporary) */
-.debug-banner {
-  background: #e53935;
-  color: #fff;
-  padding: 10px 16px;
-  font-weight: 700;
-  text-align: center;
+.novo-prontuario textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.checkbox label {
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+}
+
+.salvar-btn {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.salvar-btn:hover {
+  background-color: #0b5ed7;
 }
