@@ -19,7 +19,9 @@ const Professionals: React.FC = () => {
     cpf: "",
     rg: "",
     telefone: "",
+    role: "",
     speciality: "",
+    professionalRegister: "",
     userType: "PROFESSIONAL",
   });
 
@@ -27,7 +29,9 @@ const Professionals: React.FC = () => {
   const [success, setSuccess] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
 
     let formattedValue = value;
@@ -47,14 +51,42 @@ const Professionals: React.FC = () => {
         .replace(/(\d{5})(\d{4})$/, "$1-$2");
     }
 
-    setFormData({ ...formData, [name]: formattedValue });
+    setFormData((prev) => {
+      const newFormData = { ...prev, [name]: formattedValue };
+
+      if (name === "role") {
+        if (value === "PROFESSIONAL") {
+          newFormData.userType = "PROFESSIONAL";
+        } else if (value === "RECEPTIONIST") {
+          newFormData.userType = "RECEPTIONIST";
+        } else if (value === "DIRECTOR") {
+          newFormData.userType = "DIRECTOR";
+        }
+        // Limpa os campos de profissional se o cargo não for profissional
+        if (value !== "PROFESSIONAL") {
+          newFormData.speciality = "";
+          newFormData.professionalRegister = "";
+        }
+      }
+
+      return newFormData;
+    });
   };
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
 
     Object.entries(formData).forEach(([key, value]) => {
-      if (!value.trim()) newErrors[key] = "Campo obrigatório";
+      if (!value.trim()) {
+        // Campos que não são obrigatórios para todos
+        if (
+          (key === "speciality" || key === "professionalRegister") &&
+          formData.role !== "PROFESSIONAL"
+        ) {
+          return;
+        }
+        newErrors[key] = "Campo obrigatório";
+      }
     });
 
     if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
@@ -67,6 +99,16 @@ const Professionals: React.FC = () => {
 
     if (formData.telefone && formData.telefone.replace(/\D/g, "").length < 10) {
       newErrors.telefone = "Telefone inválido";
+    }
+
+    if (formData.role === "PROFESSIONAL") {
+      if (!formData.speciality.trim()) {
+        newErrors.speciality = "Especialidade é obrigatória para profissionais";
+      }
+      if (!formData.professionalRegister.trim()) {
+        newErrors.professionalRegister =
+          "Registro profissional é obrigatório para profissionais";
+      }
     }
 
     setErrors(newErrors);
@@ -123,7 +165,9 @@ const Professionals: React.FC = () => {
         cpf: "",
         rg: "",
         telefone: "",
+        role: "",
         speciality: "",
+        professionalRegister: "",
         userType: "PROFESSIONAL",
       });
     } catch {
@@ -150,30 +194,146 @@ const Professionals: React.FC = () => {
             {success && <p className="success-message">{success}</p>}
             {errors.submit && <p className="error-message">{errors.submit}</p>}
 
-            {[
-              { id: "name", label: "Nome completo" },
-              { id: "email", label: "E-mail" },
-              { id: "password", label: "Senha", type: "password" },
-              { id: "cpf", label: "CPF" },
-              { id: "rg", label: "RG" },
-              { id: "telefone", label: "Telefone" },
-              { id: "speciality", label: "Especialidade" },
-            ].map(({ id, label, type }) => (
-              <div className="form-group" key={id}>
-                <label htmlFor={id}>{label}</label>
-                <input
-                  type={type || "text"}
-                  id={id}
-                  name={id}
-                  value={formData[id as keyof typeof formData]}
-                  onChange={handleChange}
-                  placeholder={`Digite o ${label.toLowerCase()}`}
-                />
-                {errors[id] && (
-                  <span className="error-message">{errors[id]}</span>
-                )}
-              </div>
-            ))}
+            <div className="form-group">
+              <label htmlFor="name">Nome completo</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Digite o nome completo"
+              />
+              {errors.name && (
+                <span className="error-message">{errors.name}</span>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Digite o e-mail"
+              />
+              {errors.email && (
+                <span className="error-message">{errors.email}</span>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Senha</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Digite a senha"
+              />
+              {errors.password && (
+                <span className="error-message">{errors.password}</span>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="cpf">CPF</label>
+              <input
+                type="text"
+                id="cpf"
+                name="cpf"
+                value={formData.cpf}
+                onChange={handleChange}
+                placeholder="Digite o CPF"
+              />
+              {errors.cpf && <span className="error-message">{errors.cpf}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="rg">RG</label>
+              <input
+                type="text"
+                id="rg"
+                name="rg"
+                value={formData.rg}
+                onChange={handleChange}
+                placeholder="Digite o RG"
+              />
+              {errors.rg && <span className="error-message">{errors.rg}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="telefone">Telefone</label>
+              <input
+                type="text"
+                id="telefone"
+                name="telefone"
+                value={formData.telefone}
+                onChange={handleChange}
+                placeholder="Digite o telefone"
+              />
+              {errors.telefone && (
+                <span className="error-message">{errors.telefone}</span>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="role">Cargo</label>
+              <select
+                id="role"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+              >
+                <option value="">Selecione um cargo</option>
+                <option value="DIRECTOR">Diretor Geral</option>
+                <option value="RECEPTIONIST">Recepcionista</option>
+                <option value="PROFESSIONAL">Profissional</option>
+              </select>
+              {errors.role && (
+                <span className="error-message">{errors.role}</span>
+              )}
+            </div>
+
+            {formData.role === "PROFESSIONAL" && (
+              <>
+                <div className="form-group">
+                  <label htmlFor="speciality">Especialidade</label>
+                  <input
+                    type="text"
+                    id="speciality"
+                    name="speciality"
+                    value={formData.speciality}
+                    onChange={handleChange}
+                    placeholder="Digite a especialidade"
+                  />
+                  {errors.speciality && (
+                    <span className="error-message">{errors.speciality}</span>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label htmlFor="professionalRegister">
+                    Registro Profissional
+                  </label>
+                  <input
+                    type="text"
+                    id="professionalRegister"
+                    name="professionalRegister"
+                    value={formData.professionalRegister}
+                    onChange={handleChange}
+                    placeholder="Digite o registro profissional"
+                  />
+                  {errors.professionalRegister && (
+                    <span className="error-message">
+                      {errors.professionalRegister}
+                    </span>
+                  )}
+                </div>
+              </>
+            )}
 
             <button
               type="submit"
