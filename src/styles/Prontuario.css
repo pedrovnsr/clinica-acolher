@@ -1,160 +1,227 @@
-.config-container-main {
+/* ===== PRONTUÁRIO ===== */
+.prontuario-container-main {
   display: flex;
-  width: 100%;
   height: 100vh;
 }
 
-.config-content-wrapper {
+/* ===== CONTEÚDO PRINCIPAL ===== */
+.prontuario-content-area {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.config-page {
-  padding: 30px;
-  background-color: #f3f4f6;
-  font-family: sans-serif;
+/* ===== HEADER ===== */
+.prontuario-header-wrapper {
+  height: 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.prontuario-header-title {
+  font-size: 1.5rem;
   color: #333;
-  height: 100%;
+  font-weight: 600;
+}
+
+/* ===== CONTEÚDO ===== */
+.prontuario-page {
+  height: 90%;
+  padding: 40px;
+  background-color: #f1f5f9;
   overflow-y: auto;
 }
 
-.config-header {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 25px;
-}
-
-.config-tabs {
+/* ===== LAYOUT PRINCIPAL ===== */
+.prontuario-layout {
   display: flex;
-  gap: 15px;
-  margin-bottom: 25px;
-}
-
-.tab-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  background: #e0e7ff;
-  color: #778c42;
-  border: none;
-  transition: 0.3s;
-}
-
-.tab-item.active,
-.tab-item:hover {
-  background-color: #778c42;
-  color: white;
-}
-
-.config-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 25px;
-}
-
-.config-card {
-  background-color: white;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  display: flex;
-  justify-content: space-between;
   align-items: flex-start;
 }
 
-.card-content h3 {
-  font-size: 1.1rem;
+/* ===== LISTA DE PACIENTES ===== */
+.patient-list-card {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  max-width: 320px;
+}
+
+.patient-list-card h2 {
+  font-size: 18px;
   font-weight: 600;
-  margin: 0 0 0.5rem 0;
+  color: #444;
+  margin-bottom: 15px;
 }
 
-.card-content p {
-  margin: 0;
-  color: #6c757d;
-  font-size: 0.9rem;
-}
-
-.card-content .status {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  color: #16a34a;
-  font-weight: 500;
-}
-
-.card-content .status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #16a34a;
-}
-
-.card-content .action-link {
-  color: #778c42;
-  font-weight: 500;
+.patient-item {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
   cursor: pointer;
-  text-decoration: none;
-  margin-top: 0.5rem;
-  display: inline-block;
+  background-color: #fafafa;
+  transition: all 0.3s ease;
 }
 
-.card-content .action-link:hover {
-  text-decoration: underline;
+.patient-item:hover {
+  background-color: #e9f0de;
+  border-color: #778c42;
 }
 
-.card-content .export-button {
+.patient-item.selected {
   background-color: #778c42;
   color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
+  border-color: #778c42;
+}
+
+.patient-item h3 {
+  font-size: 16px;
   font-weight: 500;
-  margin-top: 1rem;
+  margin-bottom: 4px;
+}
+
+.patient-item p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* ===== DETALHES DO PRONTUÁRIO ===== */
+.prontuario-details-card {
+  flex: 2;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 25px;
+}
+
+.prontuario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.prontuario-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #444;
+}
+
+.prontuario-header-actions button {
+  margin-left: 10px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.card-content .export-button:hover {
-  background-color: #647534;
+.export-btn {
+  background-color: #778c42;
+  color: white;
 }
 
-.card-icon {
-  width: 48px;
-  height: 48px;
+.export-btn:hover {
+  background-color: #6b803b;
+}
+
+.delete-btn {
+  background-color: #d9534f;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c9302c;
+}
+
+/* ===== FORMULÁRIO ===== */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
   border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: #778c42;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #888;
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* ===== RODAPÉ DO FORM ===== */
+.prontuario-footer-actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
 }
 
-.icon-db {
-  background-color: #e7f4e7;
-  color: #28a745;
+.update-btn,
+.save-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
-.icon-file {
-  background-color: #e3f2fd;
-  color: #2196f3;
+.update-btn {
+  background-color: #e9f0de;
+  color: #333;
 }
 
-.icon-lock {
-  background-color: #fff8e1;
-  color: #ffc107;
+.update-btn:hover {
+  background-color: #d8e2c6;
 }
 
-.icon-download {
-  background-color: #f3e5f5;
-  color: #9c27b0;
+.save-btn {
+  background-color: #778c42;
+  color: white;
 }
 
-/* Placeholder for icons from a library */
-.icon-placeholder {
-  font-style: normal;
+.save-btn:hover {
+  background-color: #6b803b;
 }
