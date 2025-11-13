@@ -128,9 +128,13 @@ const Agenda: React.FC = () => {
     <div className="agenda-container-main">
       <Sidebar />
       <div className="agenda-content-wrapper">
-        <NotificationHeader />
+        {/* Header */}
+        <div className="patients-header">
+          <h1>Agenda</h1>
+          <NotificationHeader />
+        </div>
+
         <div className="agenda-page">
-          <h1 className="agenda-header">Agenda</h1>
           <div className="agenda-container">
             <div className="agenda-main-content">
               <h2 className="card-title">Calendário</h2>
