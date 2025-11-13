@@ -10,6 +10,12 @@ const Sidebar: FC = () => {
   const displayName = user?.name ? ` ${user.name}` : ' Dra. Anne Caroline';
   const displayRole = user?.role ? user.role : 'Diretora';
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/';
+  };
+
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
@@ -38,8 +44,8 @@ const Sidebar: FC = () => {
       </nav>
 
       <div className="sidebar-footer">
-        <button className="logout-btn">
-          <FaSignOutAlt /> <span onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); window.location.href = '/'; }}>Sair</span>
+        <button className="logout-btn" onClick={handleLogout}>
+          <FaSignOutAlt /> <span>Sair</span>
         </button>
       </div>
     </aside>
