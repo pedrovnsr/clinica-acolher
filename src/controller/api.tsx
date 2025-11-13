@@ -51,3 +51,66 @@ export function createAppointment(payload: object) {
         }
     });
 }
+
+export function fetchPatientsByProfessional(professionalId: Number) {
+    return axios.get(`http://localhost:8080/api/appointments/patients/by-professional/${professionalId}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+    });
+}
+
+
+export function fetchAppointmentsByProfessionalAndPatient(professionalId: Number, patientId: Number) {
+    return axios.get(`http://localhost:8080/api/appointments/by/professional/${professionalId}/patient/${patientId}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+    });
+}
+
+export function createAppointmentRecord(payload: FormData) {
+    // não definir Content-Type manualmente para permitir que o browser/axios gere o boundary
+    return axios.post("http://localhost:8080/api/patients-records", payload, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+    });
+}
+
+// obter registro por appointment id
+export function fetchPatientRecordByAppointment(appointmentId: number) {
+    return axios.get(`http://localhost:8080/api/patients-records/by-appointment/${appointmentId}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+    });
+}
+
+// baixar o arquivo do patient-record (retorna blob)
+export function fetchPatientRecordFile(recordId: number) {
+    return axios.get(`http://localhost:8080/api/patients-records/${recordId}/file`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        responseType: 'blob',
+    });
+}
+
+// atualizar um patient-record existente (multipart/form-data)
+export function updatePatientRecord(payload: FormData) {
+    return axios.put("http://localhost:8080/api/patients-records", payload, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+    });
+}
+
+// deletar um patient-record por id
+export function deletePatientRecord(recordId: number) {
+    return axios.delete(`http://localhost:8080/api/patients-records/${recordId}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+    });
+}
