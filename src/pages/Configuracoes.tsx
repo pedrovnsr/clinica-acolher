@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import Sidebar from '../components/Sidebar';
 import NotificationHeader from '../components/NotificationHeader';
 import '../styles/Configuracoes.css';
@@ -6,7 +6,7 @@ import '../styles/Configuracoes.css';
 // Mock icons. Em um projeto real, você usaria uma biblioteca como react-icons.
 const Icon = ({ name, className }: { name: string, className?: string }) => <i className={`${className} icon-placeholder`}>{name}</i>;
 
-const Configuracoes = () => {
+const Configuracoes: FC = () => {
   return (
     <div className="config-container-main">
       <Sidebar />

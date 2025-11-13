@@ -1,10 +1,10 @@
-import React from "react";
+import type { FC } from "react";
 import Sidebar from "../components/Sidebar";
 import "../styles/Dashboard.css";
 import { FaUserInjured, FaCalendarCheck, FaDollarSign, FaUserMd } from "react-icons/fa";
 import NotificationHeader from "../components/NotificationHeader";
 
-const Dashboard: React.FC = () => {
+const Dashboard: FC = () => {
   return (
     <div className="dashboard-container">
       {/* Sidebar */}

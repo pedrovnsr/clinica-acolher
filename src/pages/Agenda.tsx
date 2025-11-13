@@ -18,7 +18,7 @@ const CalendarDay = ({ day, isSelected, hasEvent, isFaded }: { day: number | str
   );
 };
 
-const Agenda = () => {
+const Agenda: React.FC = () => {
   const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   const calendarDays = [
     { day: 26, isFaded: true }, { day: 27, isFaded: true }, { day: 28, isFaded: true }, { day: 29, isFaded: true }, { day: 30, isFaded: true }, { day: 31, isFaded: true }, { day: 1 },
@@ -45,16 +45,15 @@ const Agenda = () => {
     async function fetchData() {
       try {
         const professionalsResponse = await fetchProfessionals();
-        setProfessionals(professionalsResponse.data);
+        setProfessionals(professionalsResponse.data || []);
         const patientsResponse = await fetchPatients();
-        setPatients(patientsResponse.data);
+        setPatients(patientsResponse.data || []);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
       }
     }
     fetchData();
   }, []);
-
 
   // yyyy-mm-dd → dd-MM-yyyy
   function formatDateToDDMMYYYY(dateString: string): string {
@@ -77,7 +76,7 @@ const Agenda = () => {
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-    const { name, value } = event.target;
+    const { name, value } = event.target as HTMLInputElement;
     setFormAppointment(prevState => ({
       ...prevState,
       [name]: value,

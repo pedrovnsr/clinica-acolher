@@ -1,12 +1,12 @@
-import React from "react";
+import type { FC, ReactNode } from "react";
 import Sidebar from "../components/Sidebar";
 import "../styles/mainlayout.css";
 
 interface MainLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   return (
     <div className="main-layout">
       <Sidebar />
