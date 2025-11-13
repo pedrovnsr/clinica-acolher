@@ -80,12 +80,14 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  overflow-y: auto;
 }
 
 /* FORMULÁRIO */
 .professional-form {
   background-color: #ffffff;
-  width: 70%;
+  width: 100%;
+  max-width: 900px;
   border-radius: 12px;
   padding: 40px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
