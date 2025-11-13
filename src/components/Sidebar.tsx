@@ -1,21 +1,9 @@
-import type { FC } from "react";
+import React from "react";
 import { FaTachometerAlt, FaUserMd, FaUsers, FaCalendarAlt, FaMoneyBillWave, FaFileMedical, FaCog, FaSignOutAlt } from "react-icons/fa";
 import "../styles/sidebar.css";
 import logo from "../assets/logo.png";
-import { getCurrentUser } from '../utils/auth';
-import type { AppUser } from '../utils/auth';
 
-const Sidebar: FC = () => {
-  const user: AppUser | null = getCurrentUser();
-  const displayName = user?.name ? ` ${user.name}` : ' Dra. Anne Caroline';
-  const displayRole = user?.role ? user.role : 'Diretora';
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    window.location.href = '/';
-  };
-
+const Sidebar: React.FC = () => {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
@@ -24,8 +12,8 @@ const Sidebar: FC = () => {
       </div>
 
       <div className="sidebar-user">
-        <p className="user-name1">{displayName}</p>
-        <span className="user-role1">{displayRole}</span>
+        <p className="user-name1"> Dra. Anne Caroline</p>
+        <span className="user-role1">Diretora</span>
       </div>
 
       <nav className="sidebar-menu">
@@ -35,16 +23,13 @@ const Sidebar: FC = () => {
           <li><FaUsers /><span onClick={() => window.location.href = "/patients"}>Pacientes</span></li>
           <li><FaCalendarAlt /><span onClick={() => window.location.href = "/agenda"}>Agenda</span></li>
           <li><FaMoneyBillWave /><span onClick={() => window.location.href = "/financeiro"}>Financeiro</span></li>
-          {/* Mostrar Prontuários somente para profissionais */}
-          {user?.role === 'profissional' && (
-            <li><FaFileMedical /><span onClick={() => window.location.href = "/prontuario"}>Prontuários</span></li>
-          )}
+          <li><FaFileMedical /><span onClick={() => window.location.href = "/prontuario"}>Prontuários</span></li>
           <li><FaCog /><span onClick={() => window.location.href = "/configuracoes"}>Configurações</span></li>
         </ul>
       </nav>
 
-      <div className="sidebar-footer">
-        <button className="logout-btn" onClick={handleLogout}>
+      <div className="sidebar-footer" onClick={() => window.location.href = "/"}>
+        <button className="logout-btn">
           <FaSignOutAlt /> <span>Sair</span>
         </button>
       </div>
