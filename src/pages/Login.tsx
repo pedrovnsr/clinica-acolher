@@ -1,15 +1,15 @@
 import '../styles/login.css';
 import logo from '../assets/logo.png';
 import { useState } from 'react';
-import {login} from '../controller/api';
+import { login } from '../controller/api';
 
 export default function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-  
-  function handleChange(event : any) {
+
+  function handleChange(event: any) {
     const { name, value } = event.target;
     setFormData({
       ...formData,
@@ -17,7 +17,7 @@ export default function Login() {
     });
   }
 
-  async function handleLogin(event : any) {
+  async function handleLogin(event: any) {
     event.preventDefault();
     try {
       const response = await login(formData);
@@ -44,8 +44,8 @@ export default function Login() {
           <option value="profissional">Profissional de saúde</option>
         </select>
 
-        <input type="email" placeholder="E-mail" onChange={handleChange} name='email'/>
-        <input type="password" placeholder="Senha" onChange={handleChange} name='password'/>
+        <input type="email" placeholder="E-mail" onChange={handleChange} name='email' />
+        <input type="password" placeholder="Senha" onChange={handleChange} name='password' />
 
         <div className="login-actions">
           <label>

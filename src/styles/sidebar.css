@@ -28,7 +28,8 @@
   text-align: left;
   margin-left: 20px;
   padding: 10px;
-  margin-bottom: 10px; /* reduz espaçamento extra */
+  margin-bottom: 10px;
+  /* reduz espaçamento extra */
 }
 
 .user-name1 {
@@ -42,13 +43,15 @@
 }
 
 .sidebar-menu {
-  flex: 1; /* faz o menu ocupar o espaço restante */
+  flex: 1;
+  /* faz o menu ocupar o espaço restante */
 }
 
 .sidebar-menu ul {
   list-style: none;
   padding: 0;
-  margin: 0; /* remove margin grande */
+  margin: 0;
+  /* remove margin grande */
 }
 
 .sidebar-menu li {

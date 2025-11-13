@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import "../styles/Professionals.css";
-import NotificationHeader from "../components/Notificationheader";
-
-
+import NotificationHeader from "../components/NotificationHeader";
+import { professionalRegistration } from "../controller/api";
 
 const Professionals: React.FC = () => {
+  const strongPasswordRegex =
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{":;'?/>.<,]).{8,}$/;
+
+  function isValidPassword(password: string) {
+    return strongPasswordRegex.test(password);
+  }
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,16 +20,18 @@ const Professionals: React.FC = () => {
     rg: "",
     telefone: "",
     speciality: "",
+    userType: "PROFESSIONAL",
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [success, setSuccess] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    // Máscaras simples
     let formattedValue = value;
+
     if (name === "cpf") {
       formattedValue = value
         .replace(/\D/g, "")
@@ -49,7 +57,6 @@ const Professionals: React.FC = () => {
       if (!value.trim()) newErrors[key] = "Campo obrigatório";
     });
 
-    // Validações extras
     if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "E-mail inválido";
     }
@@ -66,52 +73,83 @@ const Professionals: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  async function handleRegistration() {
+    try {
+      const response = await professionalRegistration(formData);
+      console.log("Profissional cadastrado:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao cadastrar profissional:", error);
+      throw error;
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (formData.password.length < 8) {
+      setErrors({
+        ...errors,
+        password: "A senha deve ter no mínimo 8 caracteres",
+      });
+      return;
+    }
+
+    if (!isValidPassword(formData.password)) {
+      setErrors({
+        ...errors,
+        password:
+          "A senha deve conter letras maiúsculas, minúsculas, números e caracteres especiais.",
+      });
+      return;
+    }
 
     if (!validateForm()) {
       setSuccess("");
       return;
     }
 
-    setSuccess("Profissional cadastrado com sucesso!");
+    setLoading(true);
     setErrors({});
+    setSuccess("");
 
-    // Limpa o formulário
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      cpf: "",
-      rg: "",
-      telefone: "",
-      speciality: "",
-    });
-
-    // Aqui você pode chamar o backend futuramente
-    // Ex: await api.post("/professionals", formData)
+    try {
+      await handleRegistration();
+      setSuccess("Profissional cadastrado com sucesso!");
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        cpf: "",
+        rg: "",
+        telefone: "",
+        speciality: "",
+        userType: "PROFESSIONAL",
+      });
+    } catch {
+      setErrors({
+        submit: "Erro ao cadastrar profissional. Tente novamente.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-
     <div className="professionals-container">
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Main area */}
       <div className="professionals-main">
-        {/* Header */}
         <div className="patients-header">
           <h1>Cadastro de profissional</h1>
           <NotificationHeader />
         </div>
 
-        {/* Conteúdo */}
         <section className="professionals-content">
           <form className="professional-form" onSubmit={handleSubmit}>
             {success && <p className="success-message">{success}</p>}
+            {errors.submit && <p className="error-message">{errors.submit}</p>}
 
-            {/* Inputs */}
             {[
               { id: "name", label: "Nome completo" },
               { id: "email", label: "E-mail" },
@@ -131,12 +169,18 @@ const Professionals: React.FC = () => {
                   onChange={handleChange}
                   placeholder={`Digite o ${label.toLowerCase()}`}
                 />
-                {errors[id] && <span className="error-message">{errors[id]}</span>}
+                {errors[id] && (
+                  <span className="error-message">{errors[id]}</span>
+                )}
               </div>
             ))}
 
-            <button type="submit" className="submit-button">
-              Cadastrar profissional
+            <button
+              type="submit"
+              className="submit-button"
+              disabled={loading}
+            >
+              {loading ? "Cadastrando..." : "Cadastrar profissional"}
             </button>
           </form>
         </section>

@@ -1,5 +1,5 @@
 import Sidebar from '../components/Sidebar';
-import NotificationHeader from "../components/Notificationheader";
+import NotificationHeader from "../components/NotificationHeader";
 import "../styles/Prontuario.css";
 
 const Prontuario = () => {
@@ -9,12 +9,15 @@ const Prontuario = () => {
     { nome: 'Pedro Oliveira', cpf: 'CPF: 456.789.123-00', selected: false },
   ];
 
+  // Exibe os dados do primeiro paciente da lista (ou o que estiver marcado como 'selected')
+  const pacienteSelecionado = pacientes.find(p => p.selected) || pacientes[0];
+
   return (
     <div className="prontuario-container-main">
       <Sidebar />
 
       <div className="prontuario-content-area">
-        
+
         {/* Cabeçalho fixo com espaçamento */}
         <div className="prontuario-header-wrapper">
           <h1 className="prontuario-header-title">Prontuários</h1>
@@ -23,7 +26,7 @@ const Prontuario = () => {
 
         <div className="prontuario-page">
           <div className="prontuario-layout">
-            
+
             {/* Lista de pacientes */}
             <div className="patient-list-card">
               <h2>Lista de Pacientes</h2>
@@ -41,7 +44,7 @@ const Prontuario = () => {
             {/* Detalhes do prontuário */}
             <div className="prontuario-details-card">
               <div className="prontuario-header">
-                <h2>Prontuário - João Silva</h2>
+                <h2>Prontuário - {pacienteSelecionado.nome}</h2>
                 <div className="prontuario-header-actions">
                   <button className="export-btn">Exportar</button>
                   <button className="delete-btn">Excluir</button>
@@ -62,19 +65,11 @@ const Prontuario = () => {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Profissional</label>
-                  <select className="form-select" defaultValue="">
-                    <option value="" disabled>
-                      Selecione o profissional...
-                    </option>
-                  </select>
-                </div>
-
-                <div className="form-group">
                   <label className="form-label">Observações da Consulta</label>
                   <textarea
                     className="form-textarea"
                     placeholder="Descreva as observações da consulta..."
+                    defaultValue="Paciente apresenta melhora no quadro geral."
                   ></textarea>
                 </div>
 
@@ -85,6 +80,7 @@ const Prontuario = () => {
                       type="text"
                       className="form-input"
                       placeholder="mm / dd / yyyy"
+                      defaultValue="10 / 01 / 2026"
                     />
                     <span className="input-icon">📅</span>
                   </div>

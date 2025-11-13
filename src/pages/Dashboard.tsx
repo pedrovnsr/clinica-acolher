@@ -2,7 +2,7 @@ import React from "react";
 import Sidebar from "../components/Sidebar";
 import "../styles/Dashboard.css";
 import { FaUserInjured, FaCalendarCheck, FaDollarSign, FaUserMd } from "react-icons/fa";
-import NotificationHeader from "../components/Notificationheader";
+import NotificationHeader from "../components/NotificationHeader";
 
 const Dashboard: React.FC = () => {
   return (
