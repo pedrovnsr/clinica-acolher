@@ -2,7 +2,6 @@ import '../styles/login.css';
 import logo from '../assets/logo.png';
 import { useState } from 'react';
 import { login } from '../controller/api';
-import { setCurrentUser } from '../utils/auth';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -10,9 +9,7 @@ export default function Login() {
     password: ''
   });
 
-  const [role, setRole] = useState('');
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(event: any) {
     const { name, value } = event.target;
     setFormData({
       ...formData,
@@ -20,21 +17,11 @@ export default function Login() {
     });
   }
 
-  async function handleLogin(event: React.FormEvent) {
+  async function handleLogin(event: any) {
     event.preventDefault();
     try {
       const response = await login(formData);
       localStorage.setItem('token', response.data.token);
-
-      // create a small user object so the UI can know role/profissionalId
-      const user = {
-        name: formData.email.split('@')[0],
-        role: role, // diretor | recepcionista | profissional
-        profissionalId: role === 'profissional' ? formData.email : undefined,
-      };
-
-      setCurrentUser(user);
-
       console.log('Login bem-sucedido:', response.data);
       window.location.href = "/dashboard";
     }
@@ -50,7 +37,7 @@ export default function Login() {
         <h1>Clínica Acolher</h1>
         <p>Faça login para continuar</p>
 
-        <select value={role} onChange={(e) => setRole(e.target.value)}>
+        <select>
           <option value="">Selecione o cargo</option>
           <option value="diretor">Diretor geral</option>
           <option value="recepcionista">Recepcionista</option>

@@ -31,7 +31,7 @@ const Financeiro: React.FC = () => {
         },
     ];
 
-    const [historico] = useState([
+    const [historico, setHistorico] = useState([
         {
             paciente: "João Silva",
             valor: "R$ 200,00",
@@ -52,14 +52,14 @@ const Financeiro: React.FC = () => {
         },
     ]);
 
-    const [balanco] = useState({
+    const [balanco, setBalanco] = useState({
         receita: "R$ 12.000,00",
         despesas: "R$ 4.500,00",
         lucro: "R$ 7.500,00",
         consultas: "86",
     });
 
-    const [repasse] = useState([
+    const [repasse, setRepasse] = useState([
         { profissional: "Dra. Ana Lima", faturamento: "R$ 3.000,00", repasse: "R$ 600,00" },
         { profissional: "Dr. Pedro Costa", faturamento: "R$ 5.500,00", repasse: "R$ 1.100,00" },
         { profissional: "Dr. Antonio Peres", faturamento: "R$ 2500,00", repasse: "R$ 750" }

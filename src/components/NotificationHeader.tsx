@@ -1,8 +1,8 @@
-import type { FC } from "react";
+import React from "react";
 import { FaBell } from "react-icons/fa";
 import "../styles/NotificationHeader.css";
 
-const NotificationHeader: FC = () => {
+const NotificationHeader: React.FC = () => {
   return (
     <div className="notification-header">
       <FaBell className="notification-icon" />
