@@ -4,15 +4,28 @@ import "../styles/Professionals.css";
 import NotificationHeader from "../components/NotificationHeader";
 import { professionalRegistration } from "../controller/api";
 
+const strongPasswordRegex =
+  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{":;'?/>.<,]).{8,}$/;
+
+function isValidPassword(password: string) {
+  return strongPasswordRegex.test(password);
+}
+
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+  cpf: string;
+  rg: string;
+  telefone: string;
+  role: string;
+  speciality: string;
+  professionalRegister: string;
+  userType: string;
+}
+
 const Professionals: React.FC = () => {
-  const strongPasswordRegex =
-    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{":;'?/>.<,]).{8,}$/;
-
-  function isValidPassword(password: string) {
-    return strongPasswordRegex.test(password);
-  }
-
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     password: "",
@@ -22,141 +35,113 @@ const Professionals: React.FC = () => {
     role: "",
     speciality: "",
     professionalRegister: "",
-    userType: "PROFESSIONAL",
+    userType: "",
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [success, setSuccess] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
+  // -----------------------------
+  // Máscaras
+  // -----------------------------
+  const formatCPF = (cpf: string) => {
+    return cpf
+      .replace(/\D/g, "")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+  };
+
+  const formatTelefone = (tel: string) =>
+    tel
+      .replace(/\D/g, "")
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d{5})(\d{4})$/, "$1-$2");
+
+  // -----------------------------
+  // HandleChange — userType seguindo o backend
+  // -----------------------------
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
 
-    let formattedValue = value;
-
-    if (name === "cpf") {
-      formattedValue = value
-        .replace(/\D/g, "")
-        .replace(/(\d{3})(\d)/, "$1.$2")
-        .replace(/(\d{3})(\d)/, "$1.$2")
-        .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-    }
-
-    if (name === "telefone") {
-      formattedValue = value
-        .replace(/\D/g, "")
-        .replace(/(\d{2})(\d)/, "($1) $2")
-        .replace(/(\d{5})(\d{4})$/, "$1-$2");
-    }
+    let formatted = value;
+    if (name === "cpf") formatted = formatCPF(value);
+    if (name === "telefone") formatted = formatTelefone(value);
 
     setFormData((prev) => {
-      const newFormData = { ...prev, [name]: formattedValue };
+      const newData = { ...prev, [name]: formatted };
 
       if (name === "role") {
-        if (value === "PROFESSIONAL") {
-          newFormData.userType = "PROFESSIONAL";
-        } else if (value === "RECEPTIONIST") {
-          newFormData.userType = "RECEPTIONIST";
-        } else if (value === "DIRECTOR") {
-          newFormData.userType = "DIRECTOR";
-        }
-        // Limpa os campos de profissional se o cargo não for profissional
-        if (value !== "PROFESSIONAL") {
-          newFormData.speciality = "";
-          newFormData.professionalRegister = "";
-        }
+        // Backend aceita APENAS estes valores:
+        // RECEPCIONIST, PROFESSIONAL, GENERAL_DIRECTOR
+
+        if (value === "PROFESSIONAL") newData.userType = "PROFESSIONAL";
+        else if (value === "RECEPCIONIST") newData.userType = "RECEPCIONIST";
+        else if (value === "DIRECTOR") newData.userType = "GENERAL_DIRECTOR";
+        else newData.userType = "";
       }
 
-      return newFormData;
+      return newData;
     });
   };
 
+  // -----------------------------
+  // Validação
+  // -----------------------------
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
 
-    Object.entries(formData).forEach(([key, value]) => {
-      if (!value.trim()) {
-        // Campos que não são obrigatórios para todos
-        if (
-          (key === "speciality" || key === "professionalRegister") &&
-          formData.role !== "PROFESSIONAL"
-        ) {
-          return;
-        }
-        newErrors[key] = "Campo obrigatório";
+    const required = ["name", "email", "password", "cpf", "rg", "telefone", "role"];
+
+    required.forEach((f) => {
+      if (!formData[f as keyof FormData].trim()) {
+        newErrors[f] = "Campo obrigatório";
       }
     });
 
-    if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "E-mail inválido";
-    }
-
-    if (formData.cpf && formData.cpf.replace(/\D/g, "").length !== 11) {
-      newErrors.cpf = "CPF inválido";
-    }
-
-    if (formData.telefone && formData.telefone.replace(/\D/g, "").length < 10) {
-      newErrors.telefone = "Telefone inválido";
-    }
-
     if (formData.role === "PROFESSIONAL") {
-      if (!formData.speciality.trim()) {
-        newErrors.speciality = "Especialidade é obrigatória para profissionais";
-      }
-      if (!formData.professionalRegister.trim()) {
-        newErrors.professionalRegister =
-          "Registro profissional é obrigatório para profissionais";
-      }
+      if (!formData.speciality.trim()) newErrors.speciality = "Especialidade obrigatória";
+      if (!formData.professionalRegister.trim())
+        newErrors.professionalRegister = "Registro obrigatório";
     }
+
+    if (formData.email && !/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "E-mail inválido";
+
+    if (formData.cpf.replace(/\D/g, "").length !== 11)
+      newErrors.cpf = "CPF inválido";
+
+    const tel = formData.telefone.replace(/\D/g, "");
+    if (tel.length < 10 || tel.length > 11) newErrors.telefone = "Telefone inválido";
+
+    if (formData.password.length < 8)
+      newErrors.password = "A senha deve ter ao menos 8 caracteres";
+    else if (!isValidPassword(formData.password))
+      newErrors.password =
+        "A senha deve conter letras maiúsculas, minúsculas, números e caracteres especiais.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  async function handleRegistration() {
-    try {
-      const response = await professionalRegistration(formData);
-      console.log("Profissional cadastrado:", response.data);
-      return response.data;
-    } catch (error) {
-      console.error("Erro ao cadastrar profissional:", error);
-      throw error;
-    }
-  }
-
+  // -----------------------------
+  // Submit
+  // -----------------------------
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (formData.password.length < 8) {
-      setErrors({
-        ...errors,
-        password: "A senha deve ter no mínimo 8 caracteres",
-      });
-      return;
-    }
-
-    if (!isValidPassword(formData.password)) {
-      setErrors({
-        ...errors,
-        password:
-          "A senha deve conter letras maiúsculas, minúsculas, números e caracteres especiais.",
-      });
-      return;
-    }
-
-    if (!validateForm()) {
-      setSuccess("");
-      return;
-    }
+    if (!validateForm()) return;
 
     setLoading(true);
     setErrors({});
     setSuccess("");
 
     try {
-      await handleRegistration();
+      await professionalRegistration(formData);
+
       setSuccess("Profissional cadastrado com sucesso!");
       setFormData({
         name: "",
@@ -168,12 +153,10 @@ const Professionals: React.FC = () => {
         role: "",
         speciality: "",
         professionalRegister: "",
-        userType: "PROFESSIONAL",
+        userType: "",
       });
     } catch {
-      setErrors({
-        submit: "Erro ao cadastrar profissional. Tente novamente.",
-      });
+      setErrors({ submit: "Erro ao cadastrar. Tente novamente." });
     } finally {
       setLoading(false);
     }
@@ -194,56 +177,50 @@ const Professionals: React.FC = () => {
             {success && <p className="success-message">{success}</p>}
             {errors.submit && <p className="error-message">{errors.submit}</p>}
 
+            {/* Nome */}
             <div className="form-group">
-              <label htmlFor="name">Nome completo</label>
+              <label>Nome completo</label>
               <input
                 type="text"
-                id="name"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Digite o nome completo"
               />
-              {errors.name && (
-                <span className="error-message">{errors.name}</span>
-              )}
+              {errors.name && <span className="error-message">{errors.name}</span>}
             </div>
 
+            {/* Email */}
             <div className="form-group">
-              <label htmlFor="email">E-mail</label>
+              <label>E-mail</label>
               <input
                 type="email"
-                id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Digite o e-mail"
               />
-              {errors.email && (
-                <span className="error-message">{errors.email}</span>
-              )}
+              {errors.email && <span className="error-message">{errors.email}</span>}
             </div>
 
+            {/* Senha */}
             <div className="form-group">
-              <label htmlFor="password">Senha</label>
+              <label>Senha</label>
               <input
                 type="password"
-                id="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Digite a senha"
               />
-              {errors.password && (
-                <span className="error-message">{errors.password}</span>
-              )}
+              {errors.password && <span className="error-message">{errors.password}</span>}
             </div>
 
+            {/* CPF */}
             <div className="form-group">
-              <label htmlFor="cpf">CPF</label>
+              <label>CPF</label>
               <input
                 type="text"
-                id="cpf"
                 name="cpf"
                 value={formData.cpf}
                 onChange={handleChange}
@@ -252,11 +229,11 @@ const Professionals: React.FC = () => {
               {errors.cpf && <span className="error-message">{errors.cpf}</span>}
             </div>
 
+            {/* RG */}
             <div className="form-group">
-              <label htmlFor="rg">RG</label>
+              <label>RG</label>
               <input
                 type="text"
-                id="rg"
                 name="rg"
                 value={formData.rg}
                 onChange={handleChange}
@@ -265,46 +242,38 @@ const Professionals: React.FC = () => {
               {errors.rg && <span className="error-message">{errors.rg}</span>}
             </div>
 
+            {/* TELEFONE */}
             <div className="form-group">
-              <label htmlFor="telefone">Telefone</label>
+              <label>Telefone</label>
               <input
                 type="text"
-                id="telefone"
                 name="telefone"
                 value={formData.telefone}
                 onChange={handleChange}
                 placeholder="Digite o telefone"
               />
-              {errors.telefone && (
-                <span className="error-message">{errors.telefone}</span>
-              )}
+              {errors.telefone && <span className="error-message">{errors.telefone}</span>}
             </div>
 
+            {/* ROLE */}
             <div className="form-group">
-              <label htmlFor="role">Cargo</label>
-              <select
-                id="role"
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-              >
+              <label>Cargo</label>
+              <select name="role" value={formData.role} onChange={handleChange}>
                 <option value="">Selecione um cargo</option>
                 <option value="DIRECTOR">Diretor Geral</option>
-                <option value="RECEPTIONIST">Recepcionista</option>
+                <option value="RECEPCIONIST">Recepcionista</option>
                 <option value="PROFESSIONAL">Profissional</option>
               </select>
-              {errors.role && (
-                <span className="error-message">{errors.role}</span>
-              )}
+              {errors.role && <span className="error-message">{errors.role}</span>}
             </div>
 
+            {/* Campos extra para PROFESSIONAL */}
             {formData.role === "PROFESSIONAL" && (
               <>
                 <div className="form-group">
-                  <label htmlFor="speciality">Especialidade</label>
+                  <label>Especialidade</label>
                   <input
                     type="text"
-                    id="speciality"
                     name="speciality"
                     value={formData.speciality}
                     onChange={handleChange}
@@ -314,13 +283,11 @@ const Professionals: React.FC = () => {
                     <span className="error-message">{errors.speciality}</span>
                   )}
                 </div>
+
                 <div className="form-group">
-                  <label htmlFor="professionalRegister">
-                    Registro Profissional
-                  </label>
+                  <label>Registro Profissional</label>
                   <input
                     type="text"
-                    id="professionalRegister"
                     name="professionalRegister"
                     value={formData.professionalRegister}
                     onChange={handleChange}
@@ -335,11 +302,7 @@ const Professionals: React.FC = () => {
               </>
             )}
 
-            <button
-              type="submit"
-              className="submit-button"
-              disabled={loading}
-            >
+            <button type="submit" className="submit-button" disabled={loading}>
               {loading ? "Cadastrando..." : "Cadastrar profissional"}
             </button>
           </form>
